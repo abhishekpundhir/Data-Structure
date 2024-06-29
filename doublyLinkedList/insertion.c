@@ -9,7 +9,7 @@ struct Node {
 void traverse(struct Node *head){
     struct Node *p = head;
         printf("Element: ");
-    while (head!=NULL)
+    while (p!=NULL)
     {
         printf("%d\t",p->data);
         p= p->next;
