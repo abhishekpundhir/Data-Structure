@@ -1,89 +1,106 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
 
-// Implimentation of Stack Structure:
-typedef struct stack
-{
+typedef struct Stack{
     int size;
     int top;
     int *arr;
-} stack;
+}stack;
 
-// Check if the stack is Empty ?
-int isEmpty(struct stack *s)
-{
-    if (s->top == -1)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
+
+int isEmpty(stack *sp){
+    if (sp->top == -1) return 1;
+    else return 0;
+}
+
+int isFull(stack *sp){
+    if (sp->top == sp->size-1) return 1;
+    else return 0;
+}
+
+void push(stack *sp){
+    int data;
+    printf("Enter the Element? ");
+    scanf("%d",&data);
+
+    if (isFull(sp)) printf("Stack Overload..! Value %d is Not Pushed in Stack\n",data);
+     else {
+        sp->top++;
+        sp->arr[sp->top] = data;
+        printf("Element %d is Pushed In Stack\n",data);
+     }
+}
+
+void pop(stack *sp){
+    if(isEmpty(sp)) printf("Stack is Empty!\n");
+    else {
+        int value = sp->arr[sp->top];
+        sp->top--;
+        printf("Element %d is Poped from Stack..\n",value);
     }
 }
 
-// Check if the Stack is Full ?
-int isFull(struct stack *s)
-{
-    if (s->top == s->size - 1)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+void peek(stack *sp){
+    if (isEmpty(sp)) printf("Stack is Empty!\n");
+    else{
+        int index;
+        printf("Enter the Possition? \n");
+        scanf("%d",&index);
+        int arrayIndex = sp->top-index+1;
+          if (arrayIndex < 0) printf("Invalid Input\n");
+          else printf("The Element At Possition %d is %d \n",index,sp->arr[arrayIndex]);
+   }
 }
 
-// Push Operation
-void push(struct stack *s, int data)
-{
-    if (isFull(s))
-    {
-        printf("Stack is Overload value %d Insertion Faild!", data);
-    }
-    else
-    {
-        s->top++;
-        s->arr[s->top] = data;
-        printf("Element %d Pushed in the Stack...\n", data);
-    }
+
+void stackBottom(stack *sp){
+    if (isEmpty(sp)) printf("Stack is Empty! \n");
+    printf("Stack Bottom Element is: %d\n", sp->arr[sp->top]);
 }
 
-// Pop Operation
-int pop(struct stack *s)
-{
-    if (isEmpty(s))
-    {
-        printf("Stack is Empty\n");
-        return -1;
-    }
-    else
-    {
-        int value = s->arr[s->top];
-        s->top--;
-        printf("\nElement %d Poped from Stack\n", value);
-    }
+
+void stackTop(stack *sp){
+    if (isFull(sp)) printf("Stack Overload! \n");
+    printf("Top Element of Stack is: %d\n", sp->arr[0]);
 }
+int main(){
+stack *sp = (stack *)malloc(sizeof(stack));
+sp->size = 10;
+sp->top = -1;
+sp->arr = (int *)malloc(sp->size *sizeof(int ));
+push(sp);
+push(sp);
+push(sp);
+push(sp);
+push(sp);
 
-int main()
+int choice;
+printf("Enter 0 to Exit!\n");
+printf("Enter 1 to Push Element\n");
+printf("Enter 2 to POP Element\n");
+printf("Enter 3 to Peek In Stack\n");
+printf("Enter 4 to Get Stack Bottom In Stack\n");
+printf("Enter 5 to Peek the Top Element of Stack \n");
+
+scanf("%d",&choice);
+
+
+
+switch (choice)
 {
-    // Initialization of Stack data Members.
-    struct stack *s = (struct stack *)malloc(sizeof(struct stack));
-    s->size = 5;
-    s->top = -1;
-    s->arr = (int *)malloc(s->size * sizeof(int));
-
-    // Pushing Elements
-    push(s, 11);
-    push(s, 22);
-    push(s, 33);
-    push(s, 44);
-    push(s, 55);
-    push(s, 66);
-
-    // Poping Elements
-    pop(s);
-    push(s, 100);
-    return 0;
+case 0: exit;
+        break;
+case 1: push(sp);
+        break;
+case 2: pop(sp);
+        break;
+case 3: peek(sp);
+        break;
+case 4: stackBottom(sp);
+        break;
+case 5: stackTop(sp);
+        break;
+default: printf("Enter a Valid Input! \n");
+         break;
+}
 }
